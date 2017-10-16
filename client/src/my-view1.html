@@ -12,6 +12,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../bower_components/google-map/google-map.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="shared-styles.html">
 
 <dom-module id="my-view1">
@@ -30,15 +31,28 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <paper-button class="pink">Consultar</paper-button>
       <paper-button class="pink">Guardar</paper-button>
     <div class="card">
-        <google-map fit-to-marker api-key="AIzaSyD3E1D9b-Z7ekrT3tbhl_dy8DCXuIuDDRc">
-            <google-map-marker latitude="37.78" longitude="-122.4" draggable="true"></google-map-marker>
+        <google-map fit-to-marker  latitude="{{lat}}" longitude="{{lng}}" api-key="AIzaSyD3E1D9b-Z7ekrT3tbhl_dy8DCXuIuDDRc">
+            <google-map-marker latitude="{{lat}}" longitude="{{lng}}" draggable="true"></google-map-marker>
         </google-map>
     </div>
+
+    <iron-ajax
+              auto
+              url="http://localhost:3000/cords"
+              params='{"address":"torre BBVA"}'
+              handle-as="json"
+              on-response="handleResponse"
+              debounce-duration="300"></iron-ajax>
   </template>
 
   <script>
     class MyView1 extends Polymer.Element {
       static get is() { return 'my-view1'; }
+      handleResponse(res){
+        console.log(res);
+        this.lat = res.detail.__data.response.lat
+        this.lng = res.detail.__data.response.lng
+      }
     }
 
     window.customElements.define(MyView1.is, MyView1);
