@@ -1,6 +1,12 @@
 {
   "db": {
-    "name": "db",
-    "connector": "memory"
+    "host": "ds113795.mlab.com",
+    "port": 13795,
+    "url":  "",
+    "database": "bananasplit",
+    "password": "bsbbva2017",
+    "name": "",
+    "user": "bananasplit",
+    "connector": "mongodb"  
   }
 }
