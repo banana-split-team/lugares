@@ -1,9 +1,38 @@
 'use strict';
+const http = require('http');
+const url = require('url');
+const qs = require('querystring');
+
+// Google Maps API Client
+var googleMapsClient = require('@google/maps').createClient({
+  key : "AIzaSyA77V7bNjGDIIFvTWghwl1BhQro1I2zv_w"
+});
 
 module.exports = function(server) {
-  // Install a `/` route that returns server status
+
+
+
   var router = server.loopback.Router();
-  router.get('/cords', server.loopback.status());
+  router.get('/cords', (req,res) => {
+    console.log('entre');
+    		  /**  GOOGLE MAPS API Geocode  **/		
+          var address = req.query['address'];		
+          googleMapsClient.geocode({
+          address: address
+            }, (err, response) => {
+            console.log('mapsClient.geocode');
+          if (!err) {
+            var rtaMap = {};
+            rtaMap.nombreLargo  = response.json.results[0].address_components[0].long_name;
+            rtaMap.nombreFormateado = JSON.stringify(response.json.results[0].formatted_address);
+            rtaMap.lat = JSON.stringify(response.json.results[0].geometry.location.lat);
+            rtaMap.lng = JSON.stringify(response.json.results[0].geometry.location.lng);
+  
+            //console.log('api rtaMap: ' , JSON.stringify(rtaMap));
+            res.end(JSON.stringify(rtaMap));
+          }
+          });
+    } );
   console.log('corriendo cords!');
   server.use(router);
 };
