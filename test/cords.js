@@ -10,7 +10,7 @@ describe('Escenario 1', function() {
   describe('Usuario ingresa una direccion existente "Torre BBVA" y presiona consultar.', function() {
     it('Debería devolver posicion de torre esperada (lat: "19.4227491",lng: "-99.1749373"', function() {
         chai.request(server)
-        .get('/api/cord?address=Torre%20BBVA')
+        .get('/cord?address=Torre%20BBVA')
         .end(function(err, res){
           res.should.have.status(200);
           res.body.SUCCESS.should.be.a('object');
@@ -45,7 +45,7 @@ describe('Escenario 3', function() {
     describe('Usuario ingresa ya consulto "Ahaskdjasdqieuhhadlakjchhaskdjadsdasd" y presiona consultar.', function() {
       it('No debería devolver resultados', function() {
         chai.request(server)
-        .get('/api/cord?address=Ahaskdjasdqieuhhadlakjchhaskdjadsdasd')
+        .get('/cord?address=Ahaskdjasdqieuhhadlakjchhaskdjadsdasd')
         .end(function(err, res){
           res.should.have.status(200);
           done();
