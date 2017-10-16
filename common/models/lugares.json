@@ -1,0 +1,23 @@
+{
+  "name": "lugares",
+  "plural": "lugares",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "lugar": {
+      "type": "string",
+      "required": true
+    },
+    "coord": {
+      "type": "geopoint",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}
