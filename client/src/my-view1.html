@@ -39,7 +39,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <iron-ajax
               id="ajax"
               
-              url="http://localhost:3000/cords"
+              url="http://{{host}}:3000/cords"
               params=''
               handle-as="json"
               on-response="handleResponse"
@@ -52,7 +52,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       static get properties(){
         return {
           lugar : String,
-
+          host:{
+            type:String,
+            value: Location.host
+          }
         }
       }
       /*_getParams(access_token) {
@@ -71,6 +74,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         //this.$.mapa.fitToMarkers = false
         this.lugar = this.$.busqueda.value;
         this.$.ajax.set( 'params', {"address": this.lugar });
+        this.$.ajax.set( 'url', "http://"+location.hostname +":3000/cords"); // seteamos la url del back igual a la del front
         this.$.ajax.generateRequest()
         
         
