@@ -27,19 +27,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         height: 300px;
       }
     </style>
-    <paper-input always-float-label label="Buscar Aqui"></paper-input>
-      <paper-button class="pink">Consultar</paper-button>
+      <paper-input id="busqueda" always-float-label label="Buscar Aqui">{{lugar}}</paper-input>
+      <paper-button class="pink" on-tap="_consultar">Consultar</paper-button>
       <paper-button class="pink">Guardar</paper-button>
     <div class="card">
-        <google-map fit-to-marker  latitude="{{lat}}" longitude="{{lng}}" api-key="AIzaSyD3E1D9b-Z7ekrT3tbhl_dy8DCXuIuDDRc">
-            <google-map-marker latitude="{{lat}}" longitude="{{lng}}" draggable="true"></google-map-marker>
+        <google-map id="mapa" map={{map}} fit-to-marker disable-default-ui  api-key="AIzaSyD3E1D9b-Z7ekrT3tbhl_dy8DCXuIuDDRc">
+            <google-map-marker map={{map}} latitude="{{lat}}" longitude="{{lng}}" draggable="true"></google-map-marker>
         </google-map>
     </div>
 
     <iron-ajax
-              auto
+              id="ajax"
+              
               url="http://localhost:3000/cords"
-              params='{"address":"torre BBVA"}'
+              params=''
               handle-as="json"
               on-response="handleResponse"
               debounce-duration="300"></iron-ajax>
@@ -48,10 +49,32 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <script>
     class MyView1 extends Polymer.Element {
       static get is() { return 'my-view1'; }
+      static get properties(){
+        return {
+          lugar : String,
+
+        }
+      }
+      /*_getParams(access_token) {
+       return {access_token:access_token};
+      }*/
       handleResponse(res){
         console.log(res);
         this.lat = res.detail.__data.response.lat
         this.lng = res.detail.__data.response.lng
+        this.$.mapa.latitude=this.lat
+        this.$.mapa.longitude=this.lng
+
+      }
+      _consultar(){
+        console.log(this.$.busqueda.value)
+        //this.$.mapa.fitToMarkers = false
+        this.lugar = this.$.busqueda.value;
+        this.$.ajax.set( 'params', {"address": this.lugar });
+        this.$.ajax.generateRequest()
+        
+        
+        //{"address":"{{lugar.toString()}}"}
       }
     }
 
