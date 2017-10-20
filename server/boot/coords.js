@@ -5,7 +5,8 @@ const qs = require('querystring');
 
 // Google Maps API Client
 var googleMapsClient = require('@google/maps').createClient({
-  key : "AIzaSyA77V7bNjGDIIFvTWghwl1BhQro1I2zv_w"
+  //key : "AIzaSyA77V7bNjGDIIFvTWghwl1BhQro1I2zv_w"
+  key : "AIzaSyBdbawrCbKzWMLBFgUeGHI7dma_zyUNcow"
 });
 
 module.exports = function(server) {
