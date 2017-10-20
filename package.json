@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "start": "node .",
     "test": "mocha",
-    "posttest": "npm run lint && nsp check",
+    "posttest": "npm run lint && (nsp check || true)",
     "postinstall": "cd client && bower install"
   },
   "dependencies": {
