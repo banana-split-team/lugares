@@ -60,20 +60,20 @@ describe('Escenario 3', function() {
             .end(function(err, res) {
               res.should.have.status(200);
             });
-          });
+        });
       });
 });
 
 describe('Escenario 4', function() {
-    describe('Consultar sus direcciones guardadas como opcion en el menu.',
-        function() {
-          it('Deberíamos ver todas las direcciones guardadas (Get a /api/lugares \
-              deberia devolver 200)', function() {
-            chai.request(server)
-              .get('/api/lugares')
-              .end(function(err, res) {
-                res.should.have.status(200);
+  describe('Consultar sus direcciones guardadas como opcion en el menu.',
+      function() {
+        it('Deberíamos ver todas las dir. guardadas (Get a /api/lugares \
+            deberia devolver 200)', function() {
+          chai.request(server)
+            .get('/api/lugares')
+            .end(function(err, res) {
+              res.should.have.status(200);
             });
-          });
         });
+      });
 });
