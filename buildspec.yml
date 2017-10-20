@@ -1,6 +1,11 @@
 version: 0.2
 
 phases:
+  install:
+    commands:
+      - echo Entrando en la fase de instalacion...
+      - npm install -g mocha@2.3.1
+      - echo Saliendo de la fase de instalacion...
   pre_build:
     commands:
       - echo Entrando en la fase de pre_build...
