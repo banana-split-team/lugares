@@ -26,11 +26,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       google-map {
         height: 300px;
       }
+      span {
+          font-weight: bold;
+        };
+        span0 {
+          padding: 5px;
+        };
     </style>
-      <paper-input id="busqueda" always-float-label label="Buscar Aqui">{{lugar}}</paper-input>
-      <paper-button class="pink" on-tap="_consultar">Consultar</paper-button>
-      <paper-button class="pink">Guardar</paper-button>
-    <div class="card">
+      <paper-input id="busqueda" always-float-label on-input="_tipea" label="Buscar Aqui">{{lugar}}</paper-input>
+      <paper-button class="pink" on-tap="_consultar"disabled$={{btnConsultaDis}}>Consultar</paper-button>
+      <paper-button class="pink" on-tap="_guardar" disabled$={{btnGuardaDis}} >Guardar</paper-button>
+      <div>
+
+      <iron-label>
+        <span0>{{lugarprevio}}</span0><span>{{lugar}} </span>
+      </iron-label>
+    </div>
+
+      <div class="card">
         <google-map id="mapa" map={{map}} fit-to-marker disable-default-ui  api-key="AIzaSyD3E1D9b-Z7ekrT3tbhl_dy8DCXuIuDDRc">
             <google-map-marker map={{map}} latitude="{{lat}}" longitude="{{lng}}" draggable="true"></google-map-marker>
         </google-map>
@@ -44,6 +57,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               handle-as="json"
               on-response="handleResponse"
               debounce-duration="300"></iron-ajax>
+     <iron-ajax
+              id="AjaxPost"
+              url="http://{{host}}:3000/api/lugares"
+              method="POST"
+              content-type="application/json"
+              handle-as="json"
+              on-response="_handleAjaxPostResponse"
+              on-error="_handleAjaxPostError"
+              ></iron-ajax>      
   </template>
 
   <script>
@@ -55,6 +77,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           host:{
             type:String,
             value: Location.host
+          },
+          btnGuardaDis:{
+            type:Boolean,
+            value: true
+          },
+          btnConsultaDis:{
+            type:Boolean,
+            value: true
           }
         }
       }
@@ -69,13 +99,40 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.$.mapa.longitude=this.lng
 
       }
+      _tipea(){
+        if (this.$.busqueda.value > '') { 
+        this.btnConsultaDis = false;} else {
+        this.btnConsultaDis = true;}
+      }
+
       _consultar(){
-        console.log(this.$.busqueda.value)
+        this.lugarprevio =  'Estás en'; 
+        console.log(this.$.busqueda.value);
         //this.$.mapa.fitToMarkers = false
         this.lugar = this.$.busqueda.value;
         this.$.ajax.set( 'params', {"address": this.lugar });
         this.$.ajax.set( 'url', "http://"+location.hostname +":3000/cords"); // seteamos la url del back igual a la del front
-        this.$.ajax.generateRequest()
+        this.$.ajax.generateRequest();
+        this.btnGuardaDis = false;
+          
+        //{"address":"{{lugar.toString()}}"}
+      }
+
+      _guardar(){
+        this.$.AjaxPost.body = {
+              'lugar': this.lugar,
+              'coord': {
+                'lat': this.lat,
+                'lng': this.lng,
+              } };
+        this.$.AjaxPost.set( 'url', "http://"+location.hostname +":3000/api/lugares"); // seteamos la url del back igual a la del front
+        this.$.AjaxPost.generateRequest()
+        this.guarda = "si";
+        //this.$.mapa.fitToMarkers = false
+        //this.lugar = this.$.busqueda.value;
+        //this.$.ajax.set( 'params', {"address": this.lugar });
+        //this.$.ajax.set( 'url', "http://"+location.hostname +":3000/cords"); // seteamos la url del back igual a la del front
+        //this.$.ajax.generateRequest()
         
         
         //{"address":"{{lugar.toString()}}"}
