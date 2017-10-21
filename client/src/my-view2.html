@@ -11,6 +11,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/google-map/google-map.html">
 <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../bower_components/paper-dialog-behavior/paper-dialog-behavior.html">
+<link rel="import" href="../bower_components/paper-dialog-behavior/paper-dialog-shared-styles.html">
+<link rel="import" href="../bower_components/neon-animation/web-animations.html">
+<link rel="import" href="../bower_components/neon-animation/animations/scale-up-animation.html">
+<link rel="import" href="../bower_components/neon-animation/animations/fade-out-animation.html">
 <link rel="import" href="shared-styles.html">
 
 <dom-module id="my-view2">
@@ -24,14 +30,53 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       google-map {
         height: 300px;
       }
+      span {
+          font-weight: bold;
+      };
+      span0 {
+        position: relative;
+        float: right;
+      };
     </style>
+       <iron-label>
+        <span0>Resultado : {{resultado}}</span0>
+      </iron-label>
+      <paper-dialog id="dlgDeleteOk" entry-animation="scale-up-animation"
+                                     exit-animation="fade-out-animation">
+      <h2>Aviso</h2>
+      <paper-dialog-scrollable>
+
+      </span0> Tu lugar fué eliminado ok! <span0>
+
+      </paper-dialog-scrollable>
+      <div class="buttons">
+      <paper-button dialog-confirm autofocus>Confirmar</paper-button>
+      </div>
+      </paper-dialog>
+
+      <paper-dialog id="dlgDeleteNOk" entry-animation="scale-up-animation"
+                                        exit-animation="fade-out-animation">
+      <h2>Aviso</h2>
+      <paper-dialog-scrollable></paper-dialog-scrollable>
+
+      </span0> Lugar no eliminado.</span0>
+      </paper-dialog-scrollable>
+      <div class="buttons">
+      <paper-button dialog-confirm autofocus>Confirmar</paper-button>
+      </div>
+      </paper-dialog>
 
     <template is="dom-repeat" items="{{lugares}}" as="item">
-      <div class="card">{{item.lugar}}</p>
+      <div class="card"> <span> - {{item.lugar}} - </span>         
+        <span0>  
+            <paper-button ident$="{{item.id}}" class="pink" on-tap="_eliminar" >Eliminar</paper-button>
+          </span0>
+          <span> </span>
       </div>
+     
     </template>
-    <div class="card">aa
-        <google-map fit-to-marker  latitude="{{lat}}" longitude="{{lng}}" api-key="AIzaSyD3E1D9b-Z7ekrT3tbhl_dy8DCXuIuDDRc">
+    <div class="card">
+        <google-map fit-to-marker latitude="{{lat}}" longitude="{{lng}}" api-key="AIzaSyD3E1D9b-Z7ekrT3tbhl_dy8DCXuIuDDRc">
            <template is="dom-repeat" items="{{lugares}}" as="item">
              <google-map-marker latitude="{{item.coord.lat}}" longitude="{{item.coord.lng}}" draggable="false"></google-map-marker>
            </template> 
@@ -39,34 +84,67 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </div>
 
     <iron-ajax
-          auto
+          id="Ajax"
           url="http://localhost:3000/api/lugares"
           handle-as="json"
           on-response="handleResponse"
           debounce-duration="300"></iron-ajax>
+     <iron-ajax
+        id="AjaxDelete"
+        url="http://localhost:3000/api/lugares"
+        method="DELETE"
+        content-type="application/json"
+        handle-as="json"
+        on-response="_handleAjaxDeleteResponse"
+        on-error="_handleAjaxDeleteError"
+          ></iron-ajax>          
   </template>
 
   <script>
     class MyView2 extends Polymer.Element {
       static get is() { return 'my-view2'; }
+
       static get properties(){
         return {
           /**
            * Description for prop
            */
+          resultado : Number,
+          host:{
+            type:String,
+            value: Location.host
+          },
           lugares: {
             type: Array,
             value: []
           }
         }
       }
+      ready() {
+        super.ready();
+        //console.log('método ready');
+        this.resultado = 1;
+        this.$.Ajax.generateRequest();
+        };
       handleResponse(res){
         console.log(res);
         this.lugares = res.detail.__data.response;
-        //this.lat = res.detail.__data.response.lat
-        //this.lng = res.detail.__data.response.lng
       }
-    }
+      _handleAjaxDeleteResponse(res){
+        this.respuesta = res;
+        this.$.dlgDeleteOk.open();
+      }
+      _handleAjaxDeleteError(res){
+        this.respuesta = res;
+        this.$.dlgDeleteNOk.open();}
+
+      _eliminar(){
+        this.respuesta = event.target.getAttribute('ident')  ;
+        this.$.AjaxDelete.set( 'url', "http://"+location.hostname +":3000/api/lugares/"+ event.target.getAttribute('ident')); // seteamos la url del back igual a la del front
+        this.$.AjaxDelete.generateRequest();
+        this.$.Ajax.generateRequest();}
+
+      }
 
     window.customElements.define(MyView2.is, MyView2);
   </script>

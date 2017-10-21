@@ -9,12 +9,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
-<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../bower_components/google-map/google-map.html">
 <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../bower_components/paper-dialog-behavior/paper-dialog-behavior.html">
 <link rel="import" href="../bower_components/paper-dialog-behavior/paper-dialog-shared-styles.html">
 <link rel="import" href="../bower_components/neon-animation/web-animations.html">
@@ -171,14 +171,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.$.AjaxPost.set( 'url', "http://"+location.hostname +":3000/api/lugares"); // seteamos la url del back igual a la del front
         this.$.AjaxPost.generateRequest()
         this.guarda = "si";
-        //this.$.mapa.fitToMarkers = false
-        //this.lugar = this.$.busqueda.value;
-        //this.$.ajax.set( 'params', {"address": this.lugar });
-        //this.$.ajax.set( 'url', "http://"+location.hostname +":3000/cords"); // seteamos la url del back igual a la del front
-        //this.$.ajax.generateRequest()
-        
-        
-        //{"address":"{{lugar.toString()}}"}
       }
     }
 
