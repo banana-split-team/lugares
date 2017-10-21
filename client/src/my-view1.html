@@ -33,11 +33,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           padding: 5px;
         };
     </style>
-      <paper-input id="busqueda" always-float-label label="Buscar Aqui">{{lugar}}</paper-input>
-      <paper-button class="pink" on-tap="_consultar">Consultar</paper-button>
-      <paper-button class="pink" on-tap="_guardar">Guardar</paper-button>
-    
-    <div>
+      <paper-input id="busqueda" always-float-label on-input="_tipea" label="Buscar Aqui">{{lugar}}</paper-input>
+      <paper-button class="pink" on-tap="_consultar"disabled$={{btnConsultaDis}}>Consultar</paper-button>
+      <paper-button class="pink" on-tap="_guardar" disabled$={{btnGuardaDis}} >Guardar</paper-button>
+      <div>
 
       <iron-label>
         <span0>{{lugarprevio}}</span0><span>{{lugar}} </span>
@@ -78,6 +77,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           host:{
             type:String,
             value: Location.host
+          },
+          btnGuardaDis:{
+            type:Boolean,
+            value: true
+          },
+          btnConsultaDis:{
+            type:Boolean,
+            value: true
           }
         }
       }
@@ -92,6 +99,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.$.mapa.longitude=this.lng
 
       }
+      _tipea(){
+        if (this.$.busqueda.value > '') { 
+        this.btnConsultaDis = false;} else {
+        this.btnConsultaDis = true;}
+      }
+
       _consultar(){
         this.lugarprevio =  'Estás en'; 
         console.log(this.$.busqueda.value);
@@ -99,11 +112,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.lugar = this.$.busqueda.value;
         this.$.ajax.set( 'params', {"address": this.lugar });
         this.$.ajax.set( 'url', "http://"+location.hostname +":3000/cords"); // seteamos la url del back igual a la del front
-        this.$.ajax.generateRequest()
-      
-        
+        this.$.ajax.generateRequest();
+        this.btnGuardaDis = false;
+          
         //{"address":"{{lugar.toString()}}"}
       }
+
       _guardar(){
         this.$.AjaxPost.body = {
               'lugar': this.lugar,
