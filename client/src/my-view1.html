@@ -9,10 +9,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../bower_components/google-map/google-map.html">
 <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-dialog-behavior/paper-dialog-behavior.html">
+<link rel="import" href="../bower_components/paper-dialog-behavior/paper-dialog-shared-styles.html">
+<link rel="import" href="../bower_components/neon-animation/web-animations.html">
+<link rel="import" href="../bower_components/neon-animation/animations/scale-up-animation.html">
+<link rel="import" href="../bower_components/neon-animation/animations/fade-out-animation.html">
 <link rel="import" href="shared-styles.html">
 
 <dom-module id="my-view1">
@@ -33,13 +40,41 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           padding: 5px;
         };
     </style>
+
+      <paper-dialog id="dlgGuardaOk" entry-animation="scale-up-animation"
+                              exit-animation="fade-out-animation">
+       <h2>Aviso</h2>
+       <paper-dialog-scrollable>
+
+         </span0> Tu lugar fué guardado ok! <span0>
+  
+        </paper-dialog-scrollable>
+        <div class="buttons">
+          <paper-button dialog-confirm autofocus>Confirmar</paper-button>
+       </div>
+      </paper-dialog>
+      
+      <paper-dialog id="dlgGuardaNOk" entry-animation="scale-up-animation"
+                              exit-animation="fade-out-animation">
+       <h2>Aviso</h2>
+       <paper-dialog-scrollable>
+  
+         </span0> Lugar no guardado!</span0>
+         Compruebe si no fué guardado previamente...
+       </paper-dialog-scrollable>
+        <div class="buttons">
+          <paper-button dialog-confirm autofocus>Confirmar</paper-button>
+       </div>
+      </paper-dialog>
+
+
       <paper-input id="busqueda" always-float-label on-input="_tipea" label="Buscar Aqui">{{lugar}}</paper-input>
       <paper-button class="pink" on-tap="_consultar"disabled$={{btnConsultaDis}}>Consultar</paper-button>
       <paper-button class="pink" on-tap="_guardar" disabled$={{btnGuardaDis}} >Guardar</paper-button>
       <div>
 
       <iron-label>
-        <span0>{{lugarprevio}}</span0><span>{{lugar}} </span>
+        <span0>{{lugarprevio}}</span0><span>{{lugar}} </span> {{dialogo}}
       </iron-label>
     </div>
 
@@ -51,13 +86,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <iron-ajax
               id="ajax"
-              
+
               url="http://{{host}}:3000/cords"
               params=''
               handle-as="json"
               on-response="handleResponse"
               debounce-duration="300"></iron-ajax>
      <iron-ajax
+
               id="AjaxPost"
               url="http://{{host}}:3000/api/lugares"
               method="POST"
@@ -93,12 +129,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }*/
       handleResponse(res){
         console.log(res);
+        if (res.detail.__data.response.lat > 0){
+        this.btnGuardaDis = false;
+        this.lugar = this.$.busqueda.value;
+        this.lugarprevio =  'Estás en'; 
         this.lat = res.detail.__data.response.lat
         this.lng = res.detail.__data.response.lng
         this.$.mapa.latitude=this.lat
-        this.$.mapa.longitude=this.lng
-
+        this.$.mapa.longitude=this.lng};
       }
+      _handleAjaxPostResponse(res){
+        console.log('lala:' + res);
+        this.$.dlgGuardaOk.open();
+      }
+      _handleAjaxPostError(res){
+        console.log('lala:' + res);
+        this.$.dlgGuardaNOk.open();}
+
       _tipea(){
         if (this.$.busqueda.value > '') { 
         this.btnConsultaDis = false;} else {
@@ -106,18 +153,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       _consultar(){
-        this.lugarprevio =  'Estás en'; 
+        
         console.log(this.$.busqueda.value);
         //this.$.mapa.fitToMarkers = false
-        this.lugar = this.$.busqueda.value;
-        this.$.ajax.set( 'params', {"address": this.lugar });
+        
+        this.$.ajax.set( 'params', {"address": this.$.busqueda.value});
         this.$.ajax.set( 'url', "http://"+location.hostname +":3000/cords"); // seteamos la url del back igual a la del front
-        this.$.ajax.generateRequest();
-        this.btnGuardaDis = false;
-          
-        //{"address":"{{lugar.toString()}}"}
-      }
-
+        this.$.ajax.generateRequest();}
+      
       _guardar(){
         this.$.AjaxPost.body = {
               'lugar': this.lugar,
