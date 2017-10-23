@@ -1,0 +1,13 @@
+{
+  "db": {
+    "host": "ds113795.mlab.com",
+    "port": 13795,
+    "url":  "",
+    "database": "bananasplit",
+    "password": "069dd69237702a20611e",
+    "name": "",
+    "user": "bananasplit",
+    "connector": "mongodb" ,
+    "allowExtendedOperators" : true
+    }
+}
