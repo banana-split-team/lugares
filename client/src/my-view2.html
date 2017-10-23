@@ -48,11 +48,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       on-set="_onSet"
       on-subscribe="_onSubscribe"
       on-unsubscribe="_onUnsubscribe">
-     </global-data>
-
-      <iron-label>
-        <span0>{{lugares}}</span0>
-      </iron-label>
+      </global-data>
   
       <paper-dialog id="dlgDeleteOk" entry-animation="scale-up-animation"
                                      exit-animation="fade-out-animation">
@@ -115,15 +111,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <script>
     var data = document.querySelector('#globalData');
-    //console.log(data.get('input')); //Will show paper-input's value
     class MyView2 extends Polymer.Element {
       static get is() { return 'my-view2';} 
       
       static get properties(){
         return {
-          /**
-           * Description for prop
-           */
           resultado : Number,
           host:{
             type:String,
@@ -144,8 +136,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       handleResponse(res){
         console.log(res);
         this.lugares = res.detail.__data.response;
-        data.put('input', this.lugares);
-        this.lugares = data.get('input');
+
       }
       _handleAjaxDeleteResponse(res){
         this.respuesta = res;

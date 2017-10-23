@@ -45,16 +45,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <global-variable key="lugares" 
            value="{{lugares}}">
       </global-variable>
+      
       <global-data id="globalData"
         on-set="_onSet"
         on-subscribe="_onSubscribe"
         on-unsubscribe="_onUnsubscribe">
       </global-data>
-
-      <iron-label>
-        <span0>{{lugares}}</span0>
-      </iron-label>
-
 
       <paper-dialog id="dlgGuardaOk" entry-animation="scale-up-animation"
                               exit-animation="fade-out-animation">
@@ -127,7 +123,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <script>
     var data = document.querySelector('#globalData');
-    //console.log(data.get('input')); //Will show paper-input's value
     class MyView1 extends Polymer.Element {
       static get is() { return 'my-view1'; }
       static get properties(){
@@ -159,8 +154,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       handleResponseAjaxListaLugares(res){
         this.lugares = res.detail.__data.response;
-        data.put('input', this.lugares);
-        this.lugares = data.get('input');
+
       }
       handleResponse(res){
         console.log(res);
