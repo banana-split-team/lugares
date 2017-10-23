@@ -1,0 +1,48 @@
+{
+  "name": "prueba",
+  "plural": "pruebas",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "prop1": {
+      "type": "string"
+    },
+    "prop2": {
+      "type": "number"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {
+    "hacerPrueba": {
+      "isStatic": true,
+      "accepts": [
+        {
+          "arg": "nivel",
+          "type": "number",
+          "required": true,
+          "description": "Nivel de la prueba"
+        }
+      ],
+      "returns": [
+        {
+          "arg": "estado",
+          "type": "string",
+          "root": true,
+          "description": "El resultado de la prueba."
+        }
+      ],
+      "description": "Hace una prueba",
+      "http": [
+        {
+          "path": "hacerPrueba",
+          "verb": "post"
+        }
+      ]
+    }
+  }
+}

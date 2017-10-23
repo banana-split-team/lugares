@@ -1,0 +1,24 @@
+{
+  "name": "usuario2",
+  "plural": "usuarios2",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "accessCode": {
+      "type": "string"
+    },
+    "usuario": {
+      "type": "string"
+    },
+    "password": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

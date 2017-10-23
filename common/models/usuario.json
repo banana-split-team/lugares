@@ -1,0 +1,54 @@
+{
+  "name": "usuario",
+  "plural": "usuarios",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "accessCode": {
+      "type": "string",
+      "required": true
+    },
+    "usuario": {
+      "type": "string"
+    },
+    "password": {
+      "type": "string"
+    },
+    "nombre": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {
+    "getusuarios": {
+      "isStatic": true,
+      "accepts": [
+        {
+          "arg": "accessCode",
+          "type": "string",
+          "required": true,
+          "description": "Access code.",
+          "http": {
+            "source": "query"
+          }
+        }
+      ],
+      "returns": [],
+      "description": "GET de usuarios",
+      "http": [
+        {
+          "path": "/usuario",
+          "verb": "get"
+        }
+      ]
+    }
+  }
+}
