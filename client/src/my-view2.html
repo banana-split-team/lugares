@@ -17,6 +17,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/neon-animation/web-animations.html">
 <link rel="import" href="../bower_components/neon-animation/animations/scale-up-animation.html">
 <link rel="import" href="../bower_components/neon-animation/animations/fade-out-animation.html">
+<link rel="import" href="../bower_components/global-variable/global-variable.html">
+<link rel="import" href="../bower_components/global-variable/global-data.html">
 <link rel="import" href="shared-styles.html">
 
 <dom-module id="my-view2">
@@ -37,10 +39,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         position: relative;
         float: right;
       };
-    </style>
-       <iron-label>
-        <span0>Resultado : {{resultado}}</span0>
+    </style>  
+
+      <global-variable key="lugares" 
+              value="{{lugares}}">
+      </global-variable>
+      <global-data id="globalData"
+      on-set="_onSet"
+      on-subscribe="_onSubscribe"
+      on-unsubscribe="_onUnsubscribe">
+     </global-data>
+
+      <iron-label>
+        <span0>{{lugares}}</span0>
       </iron-label>
+  
       <paper-dialog id="dlgDeleteOk" entry-animation="scale-up-animation"
                                      exit-animation="fade-out-animation">
       <h2>Aviso</h2>
@@ -101,9 +114,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   </template>
 
   <script>
+    var data = document.querySelector('#globalData');
+    //console.log(data.get('input')); //Will show paper-input's value
     class MyView2 extends Polymer.Element {
-      static get is() { return 'my-view2'; }
-
+      static get is() { return 'my-view2';} 
+      
       static get properties(){
         return {
           /**
@@ -120,19 +135,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           }
         }
       }
+
       ready() {
         super.ready();
-        //console.log('método ready');
-        this.resultado = 1;
         this.$.Ajax.generateRequest();
         };
+
       handleResponse(res){
         console.log(res);
         this.lugares = res.detail.__data.response;
+        data.put('input', this.lugares);
+        this.lugares = data.get('input');
       }
       _handleAjaxDeleteResponse(res){
         this.respuesta = res;
-        this.$.dlgDeleteOk.open();
+        this.$.dlgDeleteOk.open()
+        this.$.Ajax.generateRequest();
+        ;
       }
       _handleAjaxDeleteError(res){
         this.respuesta = res;
@@ -141,9 +160,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       _eliminar(){
         this.respuesta = event.target.getAttribute('ident')  ;
         this.$.AjaxDelete.set( 'url', "http://"+location.hostname +":3000/api/lugares/"+ event.target.getAttribute('ident')); // seteamos la url del back igual a la del front
-        this.$.AjaxDelete.generateRequest();
-        this.$.Ajax.generateRequest();}
-
+        this.$.AjaxDelete.generateRequest();}
       }
 
     window.customElements.define(MyView2.is, MyView2);
