@@ -174,7 +174,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       ready(){
         super.ready()
         console.log(this.route.__queryParams  );
-        //window.location.href = "https://www.facebook.com/v2.10/dialog/oauth?client_id=140359533258732&redirect_uri=http://localhost:8081"
+        if (!this.route.__queryParams.code ){ window.location.href = "https://www.facebook.com/v2.10/dialog/oauth?client_id=140359533258732&redirect_uri=http://localhost:8081"}
+        
       }
     }
 
