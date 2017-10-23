@@ -1,0 +1,210 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/google-map/google-map.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../bower_components/paper-dialog-behavior/paper-dialog-behavior.html">
+<link rel="import" href="../bower_components/paper-dialog-behavior/paper-dialog-shared-styles.html">
+<link rel="import" href="../bower_components/neon-animation/web-animations.html">
+<link rel="import" href="../bower_components/neon-animation/animations/scale-up-animation.html">
+<link rel="import" href="../bower_components/neon-animation/animations/fade-out-animation.html">
+<link rel="import" href="../bower_components/global-variable/global-variable.html">
+<link rel="import" href="../bower_components/global-variable/global-data.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="my-view1">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+
+        padding: 10px;
+      }
+      google-map {
+        height: 300px;
+      }
+      span {
+          font-weight: bold;
+        };
+        span0 {
+          padding: 5px;
+        };
+    </style>
+      <global-variable key="lugares" 
+           value="{{lugares}}">
+      </global-variable>
+      
+      <global-data id="globalData"
+        on-set="_onSet"
+        on-subscribe="_onSubscribe"
+        on-unsubscribe="_onUnsubscribe">
+      </global-data>
+
+      <paper-dialog id="dlgGuardaOk" entry-animation="scale-up-animation"
+                              exit-animation="fade-out-animation">
+       <h2>Aviso</h2>
+       <paper-dialog-scrollable>
+
+         </span0> Tu lugar fué guardado ok! <span0>
+  
+        </paper-dialog-scrollable>
+        <div class="buttons">
+          <paper-button dialog-confirm autofocus>Confirmar</paper-button>
+       </div>
+      </paper-dialog>
+      
+      <paper-dialog id="dlgGuardaNOk" entry-animation="scale-up-animation"
+                              exit-animation="fade-out-animation">
+       <h2>Aviso</h2>
+       <paper-dialog-scrollable>
+  
+         </span0> Lugar no guardado!</span0>
+         Compruebe si no fué guardado previamente...
+       </paper-dialog-scrollable>
+        <div class="buttons">
+          <paper-button dialog-confirm autofocus>Confirmar</paper-button>
+       </div>
+      </paper-dialog>
+
+
+      <paper-input id="busqueda" always-float-label on-input="_tipea" label="Buscar Aqui">{{lugar}}</paper-input>
+      <paper-button class="pink" on-tap="_consultar"disabled$={{btnConsultaDis}}>Consultar</paper-button>
+      <paper-button class="pink" on-tap="_guardar" disabled$={{btnGuardaDis}} >Guardar</paper-button>
+      <div>
+
+      <iron-label>
+        <span0>{{lugarprevio}}</span0><span>{{lugar}} </span> {{dialogo}}
+      </iron-label>
+    </div>
+
+      <div class="card">
+        <google-map id="mapa" map={{map}} fit-to-marker disable-default-ui  api-key="AIzaSyD3E1D9b-Z7ekrT3tbhl_dy8DCXuIuDDRc">
+            <google-map-marker map={{map}} latitude="{{lat}}" longitude="{{lng}}" draggable="true"></google-map-marker>
+        </google-map>
+    </div>
+
+    <iron-ajax
+              id="ajax"
+
+              url="http://{{host}}:3000/cords"
+              params=''
+              handle-as="json"
+              on-response="handleResponse"
+              debounce-duration="300"></iron-ajax>
+    <iron-ajax
+              id="AjaxListaLugares"
+              url="http://localhost:3000/api/lugares"
+              handle-as="json"
+              on-response="handleResponseAjaxListaLugares"
+              debounce-duration="300"></iron-ajax>         
+     <iron-ajax
+
+              id="AjaxPost"
+              url="http://{{host}}:3000/api/lugares"
+              method="POST"
+              content-type="application/json"
+              handle-as="json"
+              on-response="_handleAjaxPostResponse"
+              on-error="_handleAjaxPostError"
+              ></iron-ajax>      
+  </template>
+
+  <script>
+    var data = document.querySelector('#globalData');
+    class MyView1 extends Polymer.Element {
+      static get is() { return 'my-view1'; }
+      static get properties(){
+        return {
+          lugar : String,
+          host:{
+            type:String,
+            value: Location.host
+          },
+          btnGuardaDis:{
+            type:Boolean,
+            value: true
+          },
+          btnConsultaDis:{
+            type:Boolean,
+            value: true
+          },
+          lugares: {
+            type: Array,
+            value: []
+          }
+        }
+      }
+
+      ready() {
+        super.ready();
+        this.$.AjaxListaLugares.generateRequest();
+        };
+
+      handleResponseAjaxListaLugares(res){
+        this.lugares = res.detail.__data.response;
+
+      }
+      handleResponse(res){
+        console.log(res);
+        if (res.detail.__data.response.lat > 0){
+        this.btnGuardaDis = false;
+        this.lugar = this.$.busqueda.value;
+        this.lugarprevio =  'Estás en'; 
+        this.lat = res.detail.__data.response.lat;
+        this.lng = res.detail.__data.response.lng;
+        this.$.mapa.latitude=this.lat;
+        this.$.mapa.longitude=this.lng;
+        };
+      }
+      _handleAjaxPostResponse(res){
+        console.log('lala:' + res);
+        this.$.dlgGuardaOk.open();
+        this.$.AjaxListaLugares.generateRequest();
+        }
+
+      _handleAjaxPostError(res){
+        console.log('lala:' + res);
+        this.$.dlgGuardaNOk.open();}
+
+      _tipea(){
+        if (this.$.busqueda.value > '') { 
+        this.btnConsultaDis = false;} else {
+        this.btnConsultaDis = true;}
+      }
+
+      _consultar(){
+        
+        console.log(this.$.busqueda.value);
+        //this.$.mapa.fitToMarkers = false
+        
+        this.$.ajax.set( 'params', {"address": this.$.busqueda.value});
+        this.$.ajax.set( 'url', "http://"+location.hostname +":3000/cords"); // seteamos la url del back igual a la del front
+        this.$.ajax.generateRequest();}
+      
+      _guardar(){
+        this.$.AjaxPost.body = {
+              'lugar': this.lugar,
+              'coord': {
+                'lat': this.lat,
+                'lng': this.lng,
+              } };
+        this.$.AjaxPost.set( 'url', "http://"+location.hostname +":3000/api/lugares"); // seteamos la url del back igual a la del front
+        this.$.AjaxPost.generateRequest()
+      }
+    }
+
+    window.customElements.define(MyView1.is, MyView1);
+  </script>
+</dom-module>
