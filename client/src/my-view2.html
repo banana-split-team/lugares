@@ -30,7 +30,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         padding: 10px;
       }
       google-map {
-        height: 300px;
+        height: 600px;
       }
       span {
           font-weight: bold;
@@ -85,7 +85,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
      
     </template>
     <div class="card">
-        <google-map fit-to-marker latitude="{{lat}}" longitude="{{lng}}" api-key="AIzaSyD3E1D9b-Z7ekrT3tbhl_dy8DCXuIuDDRc">
+        <google-map fit-to-marker latitude="0" longitude="0" api-key="AIzaSyD3E1D9b-Z7ekrT3tbhl_dy8DCXuIuDDRc" disable-default-ui zoom="2">
            <template is="dom-repeat" items="{{lugares}}" as="item">
              <google-map-marker latitude="{{item.coord.lat}}" longitude="{{item.coord.lng}}" draggable="false"></google-map-marker>
            </template> 
