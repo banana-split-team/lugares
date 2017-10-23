@@ -1,0 +1,49 @@
+console.log(location)
+undefined
+https://www.facebook.com/dialog/oauth?response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth%2Ffacebook%2Fcallback&scope=email&client_id=140359533258732
+
+console.log(location)
+undefined
+https://www.facebook.com/dialog/oauth?response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth%2Ffacebook%2Fcallback&scope=email&client_id=140359533258732
+
+console.log(post_body)
+undefined
+grant_type=authorization_code&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth%2Ffacebook%2Fcallback&client_id=140359533258732&client_secret=a7d899629338b65bfb590395b70de8d1&code=AQDLwWrDCrzN2b4lph69mcMiIEVkv4v_T0GkkoFyWErAf_cTegl9rLYD4ajjeILFcWSIPfxeRrTtT2IEZjLRtmXBB4royxZu0ElkjbcNObN9PQRO3MqpRHrC1XkWZFxuKVVcDLrKTt8A5x4uphBzrSiks9Bh6ug6ZYJ0hhQamRyrwZCuZLLo2QPRIRdsn9uwDXot8OMiazer1Uv_Z_8YXxkJECQpiRzYyn6ezO6WZp-iEKcxY4FmNxXKmN-npfH5QHCz6Pi7egNOV8QYA6QK2GtztohFBKi7deNpgoQxfNXL1UkL0ch-juIdmcqIbnY7Y5Q
+
+console.log(options)
+undefined
+null: Object {host: "graph.facebook.com", port: 443, path: "/oauth/access_token", method: "POST", headers: Object}
+headers: Object {Content-Type: "application/x-www-form-urlencoded", Host: "graph.facebook.com", User-Agent: "Node-oauth", …}
+Content-Length: 503
+Content-Type: "application/x-www-form-urlencoded"
+Host: "graph.facebook.com"
+User-Agent: "Node-oauth"
+__proto__: Object {__defineGetter__: , __defineSetter__: , hasOwnProperty: , …}
+host: "graph.facebook.com"
+method: "POST"
+path: "/oauth/access_token"
+port: 443
+__proto__: Object {__defineGetter__: , __defineSetter__: , hasOwnProperty: , …}
+
+
+
+Debugging with inspector protocol because a runtime executable is set.
+/home/sarabadu/.nvm/versions/node/v8.4.0/bin/npm run-script debug 
+Debugger listening on ws://127.0.0.1:9229/24a9c30b-5140-4000-ae02-8919274e6c41
+Debugger attached.
+Web server listening at: http://localhost:3000
+Browse your REST API at http://localhost:3000/explorer
+
+console.log(options)
+undefined
+null: Object {host: "graph.facebook.com", port: 443, path: "/me?fields=gender%2Clink%2Clocale%2Clast_name%2Cfi…", method: "GET", headers: Object}
+headers: Object {Host: "graph.facebook.com", User-Agent: "Node-oauth", Content-length: 0}
+Content-length: 0
+Host: "graph.facebook.com"
+User-Agent: "Node-oauth"
+__proto__: Object {__defineGetter__: , __defineSetter__: , hasOwnProperty: , …}
+host: "graph.facebook.com"
+method: "GET"
+path: "/me?fields=gender%2Clink%2Clocale%2Clast_name%2Cfirst_name%2Cmiddle_name%2Ctimezone%2Cverified%2Cemail%2Cupdated_time&access_token=EAABZCqAAe5ZBwBAHNCe2fwf6aPNsJdLNAtVOtmiiY9DqtVoq0Q6YvCcZClQ5Dzlxad5RZCjPSiGd7uBfTNKReuAOAWeRF5KgOSDx8875rhiINO3Uz0WJRQxWZCVDv0JCwouMUltZCBOyjQWjirBxOv2W2o90ZCO35GleX5w1NWZCZBwZDZD"
+port: 443
+__proto__: Object {__defineGetter__: , __defineSetter__: , hasOwnProperty: , …}

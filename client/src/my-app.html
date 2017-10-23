@@ -20,6 +20,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../bower_components/paper-dialog-behavior/paper-dialog-behavior.html">
+<link rel="import" href="../bower_components/paper-dialog-behavior/paper-dialog-shared-styles.html">
 <link rel="import" href="my-icons.html">
 
 <link rel="lazy-import" href="my-view1.html">
@@ -66,8 +69,28 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         color: black;
         font-weight: bold;
       }
+      .full-paper-dialog { 
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          padding: 0;
+          margin: 0;        
+      }
     </style>
+      <paper-dialog class="full-paper-dialog" id="fulldialog" entry-animation="scale-up-animation"
+              exit-animation="fade-out-animation">
+              <h2>Aviso</h2>
+              <paper-dialog-scrollable>
 
+              </span0> Tu lugar fué guardado ok! <span0>
+
+              </paper-dialog-scrollable>
+              <div class="buttons">
+              <paper-button dialog-confirm autofocus>Confirmar</paper-button>
+              </div>
+      </paper-dialog>
     <app-location
         id="locate"
         route="{{route}}"
@@ -174,7 +197,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       ready(){
         super.ready()
         console.log(this.route.__queryParams  );
-        if (!this.route.__queryParams.code ){ window.location.href = "https://www.facebook.com/v2.10/dialog/oauth?client_id=140359533258732&redirect_uri=http://localhost:8081"}
+        if (!this.route.__queryParams.code ){ 
+          this.$.fulldialog.open()
+          //window.location.href = "https://www.facebook.com/v2.10/dialog/oauth?client_id=140359533258732&redirect_uri=http://localhost:3000"
+        }
         
       }
     }
