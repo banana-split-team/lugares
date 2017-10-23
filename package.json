@@ -7,7 +7,7 @@
   },
   "scripts": {
     "lint": "eslint .",
-    "start": "node .",
+    "start": "NODE_ENV=production node .",
     "test": "mocha",
     "posttest": "npm run lint && (nsp check || true)",
     "postinstall": "cd client && bower install"
