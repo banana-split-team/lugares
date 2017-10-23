@@ -23,6 +23,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../bower_components/paper-dialog-behavior/paper-dialog-behavior.html">
 <link rel="import" href="../bower_components/paper-dialog-behavior/paper-dialog-shared-styles.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="my-icons.html">
 
 <link rel="lazy-import" href="my-view1.html">
@@ -79,16 +80,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           margin: 0;        
       }
     </style>
-      <paper-dialog class="full-paper-dialog" id="fulldialog" entry-animation="scale-up-animation"
-              exit-animation="fade-out-animation">
-              <h2>Aviso</h2>
+      <paper-dialog class="full-paper-dialog" id="fulldialog" entry-animation="scale-up-animation"  exit-animation="fade-out-animation">
+              <h2>Login</h2>
               <paper-dialog-scrollable>
 
-              </span0> Tu lugar fué guardado ok! <span0>
+              </span0> registrate con facebook<span0>
 
               </paper-dialog-scrollable>
               <div class="buttons">
-              <paper-button dialog-confirm autofocus>Confirmar</paper-button>
+              <paper-button on-tap="_logfacebook" autofocus>Log facebook</paper-button>
               </div>
       </paper-dialog>
     <app-location
@@ -137,7 +137,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </iron-pages>
       </app-header-layout>
     </app-drawer-layout>
-  
+   
+   
+    <iron-ajax
+    
+                  id="ajaxface"
+                  url="http://{{host}}:3000/api/lugares"
+
+                  content-type="application/json"
+                  handle-as="json"
+                  on-response="_handleAjaxPostResponse"
+                  on-error="_handleAjaxPostError"
+                  ></iron-ajax>      
   </template>
 
   <script>
@@ -180,6 +191,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
       }
 
+      _logfacebook(){
+        window.location.href = "https://www.facebook.com/v2.10/dialog/oauth?client_id=140359533258732&redirect_uri=http://localhost:3000"
+      } 
       _pageChanged(page) {
         // Load page import on demand. Show 404 page if fails
         var resolvedPageUrl = this.resolveUrl('my-' + page + '.html');
@@ -200,9 +214,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         if (!this.route.__queryParams.code ){ 
           this.$.fulldialog.open()
           //window.location.href = "https://www.facebook.com/v2.10/dialog/oauth?client_id=140359533258732&redirect_uri=http://localhost:3000"
+        }else{
+          this.$.ajaxface.set( 'params', {"codigo": this.route.__queryParams.code });
+          this.$.ajaxface.set( 'url', "http://"+location.hostname +":3000/login-facebook"); // seteamos la url del back igual a la del front
+          this.$.ajaxface.generateRequest();
         }
         
+
       }
+      _handleAjaxPostResponse(res){
+            console.log(res);
+        }
+        _handleAjaxPostError(res){
+          console.log(res);
+        }
     }
 
     window.customElements.define(MyApp.is, MyApp);
