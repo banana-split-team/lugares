@@ -10,7 +10,7 @@
     "start": "node .",
     "test": "mocha",
     "posttest": "npm run lint && (nsp check || true)",
-    "postinstall": "cd client && bower install"
+    "postinstall": "cd client && bower install -F"
   },
   "dependencies": {
     "compression": "^1.0.3",
