@@ -20,6 +20,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/global-variable/global-variable.html">
 <link rel="import" href="../bower_components/global-variable/global-data.html">
 <link rel="import" href="shared-styles.html">
+<link rel="import" href="../bower_components/sortable-list/sortable-list.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+
 
 <dom-module id="my-view2">
   <template>
@@ -36,6 +42,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           font-weight: bold;
       };
       span0 {
+        font-weight:lighter;
         position: relative;
         float: right;
       };
@@ -50,6 +57,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       on-unsubscribe="_onUnsubscribe">
       </global-data>
   
+      
+
       <paper-dialog id="dlgDeleteOk" entry-animation="scale-up-animation"
                                      exit-animation="fade-out-animation">
       <h2>Aviso</h2>
@@ -75,15 +84,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </div>
       </paper-dialog>
 
-    <template is="dom-repeat" items="{{lugares}}" as="item">
-      <div class="card"> <span> - {{item.lugar}} - </span>         
-        <span0>  
-            <paper-button ident$="{{item.id}}" class="pink" on-tap="_eliminar" >Eliminar</paper-button>
-          </span0>
-          <span> </span>
-      </div>
-     
-    </template>
+      <sortable-list sortable=".item" >
+         <template is="dom-repeat" items="{{lugares}}" as="item">
+          
+            <div class="item">
+              <span> {{item.lugar}}    </span>      
+                   <paper-icon-button  src="http://www.freeiconspng.com/uploads/delete-error-exit-remove-stop-x-cross-icon--28.png" alt="eliminar" title="eliminar" on-tap="_eliminar" ident$="{{item.id}}"></paper-icon-button>        
+                   <paper-dropdown-menu label="Categorias">
+                      <paper-listbox slot="dropdown-content" selected="1">
+                        <paper-item>Cat1</paper-item>
+                        <paper-item>Cat2</paper-item>
+                      </paper-listbox>
+                    </paper-dropdown-menu>
+                  </div>
+
+            
+         </template>
+      </sortable-list>     
+
     <div class="card">
         <google-map fit-to-marker latitude="0" longitude="0" api-key="AIzaSyD3E1D9b-Z7ekrT3tbhl_dy8DCXuIuDDRc" disable-default-ui zoom="2">
            <template is="dom-repeat" items="{{lugares}}" as="item">
@@ -152,8 +170,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.respuesta = event.target.getAttribute('ident')  ;
         this.$.AjaxDelete.set( 'url', "http://"+location.hostname +":3000/api/lugares/"+ event.target.getAttribute('ident')); // seteamos la url del back igual a la del front
         this.$.AjaxDelete.generateRequest();}
+      
+      _onSortFinish(event){
+        const sortedItem = event.detail.target;}
       }
-
     window.customElements.define(MyView2.is, MyView2);
   </script>
 </dom-module>
