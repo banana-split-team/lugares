@@ -1,0 +1,35 @@
+{
+  "name": "usuario",
+  "plural": "usuarios",
+  "base": "User",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "primerApellido": {
+      "type": "string"
+    },
+    "primerNombre": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "lugares": {
+      "type": "hasMany",
+      "model": "lugares",
+      "foreignKey": ""
+    }
+  },
+  "acls": [
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "ALLOW",
+      "property": "__create__lugares"
+    }
+  ],
+  "methods": {}
+}

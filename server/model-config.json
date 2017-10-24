@@ -38,5 +38,13 @@
   "lugares": {
     "dataSource": "db",
     "public": true
+  },
+  "categoria": {
+    "dataSource": "db",
+    "public": true
+  },
+  "usuario": {
+    "dataSource": "db",
+    "public": true
   }
 }

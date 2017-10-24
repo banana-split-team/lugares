@@ -14,10 +14,24 @@
     "coord": {
       "type": "geopoint",
       "required": true
+    },
+    "lugares": {
+      "type": [
+        {
+          "lugarId": "number",
+          "required": true
+        }
+      ]
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "categorias": {
+      "type": "hasMany",
+      "model": "categoria",
+      "foreignKey": ""
+    }
+  },
   "acls": [],
   "methods": {}
 }
