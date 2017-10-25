@@ -78,6 +78,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
        </div>
       </paper-dialog>
 
+      <paper-dialog id="dlgBuscaNOK" entry-animation="scale-up-animation"
+                                      exit-animation="fade-out-animation">
+        <h2>Aviso</h2>
+        <paper-dialog-scrollable>
+
+        </span0> Lugar no encontrado.... ¿Tipeaste correctamente?. Revisá e intentá de nuevo. <span0>
+
+        </paper-dialog-scrollable>
+        <div class="buttons">
+        <paper-button dialog-confirm autofocus>Confirmar</paper-button>
+        </div>
+        </paper-dialog>
+
+
 
       <paper-input id="busqueda" always-float-label on-input="_tipea" label="Buscar Aqui">{{lugar}}</paper-input>
       <paper-button class="pink" on-tap="_consultar"disabled$={{btnConsultaDis}}>Consultar</paper-button>
@@ -102,7 +116,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               params=''
               handle-as="json"
               on-response="handleResponse"
-              debounce-duration="300"></iron-ajax>
+              on-error="handleError"
+              debounce-duration="1"></iron-ajax>
     <iron-ajax
               id="AjaxListaLugares"
               url="http://localhost:3000/api/lugares"
@@ -157,8 +172,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       }
       handleResponse(res){
-        console.log(res);
-        if (res.detail.__data.response.lat > 0){
+        console.log('RES: ' + res);
         this.btnGuardaDis = false;
         this.lugar = this.$.busqueda.value;
         this.lugarprevio =  'Estás en'; 
@@ -166,8 +180,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.lng = res.detail.__data.response.lng;
         this.$.mapa.latitude=this.lat;
         this.$.mapa.longitude=this.lng;
-        };
+        const req = res.detail.request; // iron-request
+        console.log('status', req.status, req.statusText);
       }
+      handleError(res){
+        this.$.dlgBuscaNOK.open();
+        const req = res.detail.request; // iron-request
+        console.log('status', req.status, req.statusText);
+        console.log('RES no ok ' + res.detail.request.xhr.response);
+      }
+
       _handleAjaxPostResponse(res){
         console.log('lala:' + res);
         this.$.dlgGuardaOk.open();

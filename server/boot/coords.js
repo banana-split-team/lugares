@@ -30,6 +30,9 @@ module.exports = function(server) {
           rtaMap.lng =
               JSON.stringify(response.json.results[0].geometry.location.lng);
           res.end(JSON.stringify(rtaMap));
+        } else {
+          res.writeHead(404);
+          res.end('Content not found!');
         }
       });
     } else {
