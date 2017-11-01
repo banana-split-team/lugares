@@ -192,7 +192,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       _logfacebook(){
-        window.location.href = "https://www.facebook.com/v2.10/dialog/oauth?client_id=140359533258732&redirect_uri=http://localhost:3000"
+        window.location.href = "https://www.facebook.com/v2.10/dialog/oauth?client_id=140359533258732&redirect_uri=http://localhost:3000/auth/facebook/callback"
       } 
       _pageChanged(page) {
         // Load page import on demand. Show 404 page if fails
@@ -215,8 +215,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           this.$.fulldialog.open()
           //window.location.href = "https://www.facebook.com/v2.10/dialog/oauth?client_id=140359533258732&redirect_uri=http://localhost:3000"
         }else{
-          this.$.ajaxface.set( 'params', {"codigo": this.route.__queryParams.code });
-          this.$.ajaxface.set( 'url', "http://"+location.hostname +":3000/login-facebook"); // seteamos la url del back igual a la del front
+          this.$.ajaxface.set( 'params', {"code": this.route.__queryParams.code });
+          this.$.ajaxface.set( 'url', "http://"+location.hostname +":3000/auth/facebook/callback"); // seteamos la url del back igual a la del front
           this.$.ajaxface.generateRequest();
         }
         

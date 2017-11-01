@@ -2,12 +2,12 @@
   "db": {
     "host": "ds113795.mlab.com",
     "port": 13795,
-    "url":  "",
+    "url": "",
     "database": "bananasplit",
     "password": "bsbbva2017",
-    "name": "",
+    "name": "db",
     "user": "bananasplit",
-    "connector": "mongodb" ,
-    "allowExtendedOperators" : true
-    }
+    "connector": "mongodb",
+    "allowExtendedOperators": true
+  }
 }
