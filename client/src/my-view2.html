@@ -94,13 +94,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <iron-ajax
           id="Ajax"
-          url="http://localhost:3000/api/lugares"
+          url="https://localhost:3000/api/lugares"
           handle-as="json"
           on-response="handleResponse"
           debounce-duration="300"></iron-ajax>
      <iron-ajax
         id="AjaxDelete"
-        url="http://localhost:3000/api/lugares"
+        url="https://localhost:3000/api/lugares"
         method="DELETE"
         content-type="application/json"
         handle-as="json"
@@ -149,8 +149,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.$.dlgDeleteNOk.open();}
 
       _eliminar(){
+        console.log(location.protocol+ "://"+location.hostname +":3000/api/lugares/"+ event.target.getAttribute('ident'))
         this.respuesta = event.target.getAttribute('ident')  ;
-        this.$.AjaxDelete.set( 'url', "http://"+location.hostname +":3000/api/lugares/"+ event.target.getAttribute('ident')); // seteamos la url del back igual a la del front
+        this.$.AjaxDelete.set( 'url', location.protocol+ "://"+location.hostname +":3000/api/lugares/"+ event.target.getAttribute('ident')); // seteamos la url del back igual a la del front
         this.$.AjaxDelete.generateRequest();}
       }
 
