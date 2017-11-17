@@ -112,7 +112,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <iron-ajax
               id="ajax"
 
-              url="http://{{host}}:3000/cords"
+              url="https://{{host}}:3000/cords"
               params=''
               handle-as="json"
               on-response="handleResponse"
@@ -120,14 +120,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               debounce-duration="1"></iron-ajax>
     <iron-ajax
               id="AjaxListaLugares"
-              url="http://localhost:3000/api/lugares"
+              url="https://localhost:3000/api/lugares"
               handle-as="json"
               on-response="handleResponseAjaxListaLugares"
               debounce-duration="300"></iron-ajax>         
      <iron-ajax
 
               id="AjaxPost"
-              url="http://{{host}}:3000/api/lugares"
+              url="https://{{host}}:3000/api/lugares"
               method="POST"
               content-type="application/json"
               handle-as="json"
@@ -212,7 +212,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         //this.$.mapa.fitToMarkers = false
         
         this.$.ajax.set( 'params', {"address": this.$.busqueda.value});
-        this.$.ajax.set( 'url', "http://"+location.hostname +":3000/cords"); // seteamos la url del back igual a la del front
+        this.$.ajax.set( 'url', "https://"+location.hostname +":3000/cords"); // seteamos la url del back igual a la del front
         this.$.ajax.generateRequest();}
       
       _guardar(){
@@ -222,7 +222,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 'lat': this.lat,
                 'lng': this.lng,
               } };
-        this.$.AjaxPost.set( 'url', "http://"+location.hostname +":3000/api/lugares"); // seteamos la url del back igual a la del front
+        this.$.AjaxPost.set( 'url', "https://"+location.hostname +":3000/api/lugares"); // seteamos la url del back igual a la del front
         this.$.AjaxPost.generateRequest()
       }
     }
