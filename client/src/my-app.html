@@ -25,13 +25,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="lazy-import" href="my-view1.html">
 <link rel="lazy-import" href="my-view2.html">
 <link rel="lazy-import" href="my-view3.html">
+<link rel="lazy-import" href="my-view4.html">
 <link rel="lazy-import" href="my-view404.html">
 
 <dom-module id="my-app">
   <template>
     <style>
       :host {
-        --app-primary-color: #4285f4;
+        --app-primary-color: #f442cd;
         --app-secondary-color: black;
 
         display: block;
@@ -89,6 +90,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <a name="view1" href="[[rootPath]]view1">Buscar</a>
           <a name="view2" href="[[rootPath]]view2">Guardados</a>
           <a name="view3" href="[[rootPath]]view3">Acerca de...</a>
+          <a name="view4" href="[[rootPath]]view4">CareCalendar!</a>
         </iron-selector>
       </app-drawer>
 
@@ -110,6 +112,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <my-view1 name="view1"></my-view1>
           <my-view2 name="view2"></my-view2>
           <my-view3 name="view3"></my-view3>
+          <my-view4 name="view4"></my-view4>
           <my-view404 name="view404"></my-view404>
         </iron-pages>
       </app-header-layout>
